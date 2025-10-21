@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Njibo Bac - باك S.A.P.E.L</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:0;}
+header{background:#007bff;color:white;text-align:center;padding:20px 0;}
+nav{display:flex;flex-wrap:wrap;justify-content:center;background:#0056b3;}
+nav button{background:#0056b3;color:white;border:none;padding:10px 15px;margin:2px;cursor:pointer;font-size:14px;}
+nav button.active{background:#007bff;}
+nav button:hover{background:#00408a;}
+section{max-width:900px;margin:20px auto;background:white;padding:20px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.1);display:none;}
+textarea{width:100%;height:150px;padding:10px;font-size:16px;border-radius:5px;border:1px solid #ccc;resize:vertical;}
+button.saveBtn,button.aiBtn,button.chatBtn{margin-top:10px;padding:10px 20px;background:#007bff;color:white;border:none;border-radius:5px;cursor:pointer;font-size:16px;}
+button.saveBtn:hover,button.aiBtn:hover,button.chatBtn:hover{background:#0056b3;}
+h2{color:#007bff;}
+.affichage{white-space:pre-wrap;background:#eef;padding:10px;border-radius:5px;margin-top:10px;max-height:300px;overflow-y:auto;}
+input[type=text]{width:calc(100% - 120px);padding:5px;margin:5px 0;}
+</style>
+</head>
+<body>
+
+<header><h1>Njibo Bac - باك S.A.P.E.L</h1></header>
+
+<script>
+// كلمة السر
+const motDePasse="1234";
+let entree=prompt("دخل كلمة السر للوصول لملاحظات Njibo Bac:");
+if(entree!==motDePasse){
+    document.body.innerHTML="<h2>الدخول مرفوض!</h2>";
+}
+</script>
+
+<nav>
+<button class="tabBtn active" onclick="ouvrirPage('math')">الرياضيات</button>
+<button class="tabBtn" onclick="ouvrirPage('physique')">الفيزياء</button>
+<button class="tabBtn" onclick="ouvrirPage('chimie')">الكيمياء</button>
+<button class="tabBtn" onclick="ouvrirPage('tech')">التكنولوجيا</button>
+<button class="tabBtn" onclick="ouvrirPage('anglais')">الإنجليزية</button>
+<button class="tabBtn" onclick="ouvrirPage('francais')">الفرنسية</button>
+<button class="tabBtn" onclick="ouvrirPage('arabe')">العربية</button>
+<button class="tabBtn" onclick="ouvrirPage('histoire')">التاريخ</button>
+<button class="tabBtn" onclick="ouvrirPage('geo')">الجغرافيا</button>
+<button class="tabBtn" onclick="ouvrirPage('eco')">الاقتصاد</button>
+<button class="tabBtn" onclick="ouvrirPage('ai')">المساعد AI</button>
+<button class="tabBtn" onclick="ouvrirPage('chat')">الشات</button>
+</nav>
+
+<!-- المواد -->
+<section id="math"><h2>الرياضيات</h2><textarea id="notes_math"></textarea><br><button class="saveBtn" onclick="sauvegarder('math')">حفظ</button><div class="affichage" id="affichage_math"></div></section>
+<section id="physique"><h2>الفيزياء</h2><textarea id="notes_physique"></textarea><br><button class="saveBtn" onclick="sauvegarder('physique')">حفظ</button><div class="affichage" id="affichage_physique"></div></section>
+<section id="chimie"><h2>الكيمياء</h2><textarea id="notes_chimie"></textarea><br><button class="saveBtn" onclick="sauvegarder('chimie')">حفظ</button><div class="affichage" id="affichage_chimie"></div></section>
+<section id="tech"><h2>التكنولوجيا</h2><textarea id="notes_tech"></textarea><br><button class="saveBtn" onclick="sauvegarder('tech')">حفظ</button><div class="affichage" id="affichage_tech"></div></section>
+<section id="anglais"><h2>الإنجليزية</h2><textarea id="notes_anglais"></textarea><br><button class="saveBtn" onclick="sauvegarder('anglais')">حفظ</button><div class="affichage" id="affichage_anglais"></div></section>
+<section id="francais"><h2>الفرنسية</h2><textarea id="notes_francais"></textarea><br><button class="saveBtn" onclick="sauvegarder('francais')">حفظ</button><div class="affichage" id="affichage_francais"></div></section>
+<section id="arabe"><h2>العربية</h2><textarea id="notes_arabe"></textarea><br><button class="saveBtn" onclick="sauvegarder('arabe')">حفظ</button><div class="affichage" id="affichage_arabe"></div></section>
+<section id="histoire"><h2>التاريخ</h2><textarea id="notes_histoire"></textarea><br><button class="saveBtn" onclick="sauvegarder('histoire')">حفظ</button><div class="affichage" id="affichage_histoire"></div></section>
+<section id="geo"><h2>الجغرافيا</h2><textarea id="notes_geo"></textarea><br><button class="saveBtn" onclick="sauvegarder('geo')">حفظ</button><div class="affichage" id="affichage_geo"></div></section>
+<section id="eco"><h2>الاقتصاد</h2><textarea id="notes_eco"></textarea><br><button class="saveBtn" onclick="sauvegarder('eco')">حفظ</button><div class="affichage" id="affichage_eco"></div></section>
+
+<!-- AI محلي -->
+<section id="ai">
+<h2>المساعد AI المحلي - اطرح سؤالك</h2>
+<textarea id="notes_ai" placeholder="اكتب أو الصق ملاحظاتك هنا..."></textarea><br>
+<input type="text" id="question" placeholder="اكتب سؤالك..." style="width:80%; padding:5px;">
+<button class="aiBtn" onclick="repondreQuestionLocal()">أرسل السؤال</button>
+<div class="affichage" id="reponse_ai"></div>
+</section>
+
+<!-- الشات عبر Firebase -->
+<section id="chat">
+<h2>الشات بين التلاميذ</h2>
+<div id="messages" class="affichage"></div>
+<input type="text" id="pseudo" placeholder="اسمك">
+<input type="text" id="message" placeholder="رسالتك">
+<button class="chatBtn" onclick="envoyerMessage()">أرسل</button>
+</section>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+// Firebase placeholder (خاصك تبدل بالConfig ديالك)
+const firebaseConfig = {
+  apiKey: "API_KEY ديالك",
+  authDomain: "PROJECT_ID.firebaseapp.com",
+  databaseURL: "https://PROJECT_ID-default-rtdb.firebaseio.com",
+  projectId: "PROJECT_ID",
+  storageBucket: "PROJECT_ID.appspot.com",
+  messagingSenderId: "XXXX",
+  appId: "1:XXXX:web:XXXX"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// ارسال رسالة
+function envoyerMessage(){
+  const pseudo = document.getElementById('pseudo').value;
+  const msg = document.getElementById('message').value;
+  if(!pseudo || !msg){ alert("دخل اسمك ورسالتك"); return; }
+  db.ref('chat/').push({pseudo, texte: msg, timestamp: Date.now()});
+  document.getElementById('message').value='';
+}
+
+// استقبال الرسائل مباشرة
+db.ref('chat/').on('child_added', snap=>{
+  const data = snap.val();
+  const messagesDiv = document.getElementById('messages');
+  const msgElement = document.createElement('p');
+  msgElement.textContent = `${data.pseudo}: ${data.texte}`;
+  messagesDiv.appendChild(msgElement);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+});
+
+// التبديل بين المواد
+function ouvrirPage(page){
+    document.querySelectorAll('section').forEach(s=>s.style.display='none');
+    document.getElementById(page).style.display='block';
+    document.querySelectorAll('.tabBtn').forEach(b=>b.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+}
+
+// حفظ الملاحظات
+function sauvegarder(matiere){
+    const texte=document.getElementById('notes_'+matiere).value;
+    localStorage.setItem('notes_'+matiere, texte);
+    document.getElementById('affichage_'+matiere).textContent=texte;
+}
+
+// تحميل الملاحظات
+window.addEventListener('load',()=>{
+    const matieres=['math','physique','chimie','tech','anglais','francais','arabe','histoire','geo','eco'];
+    matieres.forEach(m=>{
+        if(localStorage.getItem('notes_'+m)){
+            document.getElementById('affichage_'+m).textContent=localStorage.getItem('notes_'+m);
+        }
+    });
+    ouvrirPage('math');
+});
+
+// AI محلي
+function repondreQuestionLocal(){
+    const notes=document.getElementById('notes_ai').value.toLowerCase();
+    const question=document.getElementById('question').value.toLowerCase();
+    if(!notes || !question){ alert("اكتب ملاحظاتك وسؤالك"); return; }
+    
+    const phrases=notes.split(/[.!?]\s/);
+    let reponse=phrases.filter(p=>question.split(' ').some(m=>p.includes(m)));
+    document.getElementById('reponse_ai').textContent = reponse.slice(0,3).join('. ') || "لم يتم العثور على إجابة في الملاحظات.";
+}
+</script>
+
+</body>
+</html>
